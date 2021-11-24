@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-0_un5$a&4+9+b%4#r19v3*6h(y4+#2rsy1&1vr9@6dm-ju#018
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1', 'localhost']
 
 # Celery Configuration Options
 CELERY_TIMEZONE = "Asia/Almaty"
@@ -46,8 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api',
+    'rest_framework',
     'django_celery_beat',
-    'django_celery_results'
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'infoviz.middleware.open_access_middleware',
 ]
 
 ROOT_URLCONF = 'infoviz.urls'
