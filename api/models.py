@@ -15,6 +15,10 @@ class Bitcoin(models.Model):
     semantics_positive_tweets = models.FloatField()
     semantics_negative_tweets = models.FloatField()
 
+    percentage_of_positive_tweets = models.FloatField()
+    percentage_of_negative_tweets = models.FloatField()
+    percentage_of_neutral_tweets = models.FloatField()
+
     def __str__(self):
         return 'Bitcoin ' + str(self.price)
 
@@ -31,6 +35,10 @@ class Ethereum(models.Model):
     semantics_positive_tweets = models.FloatField()
     semantics_negative_tweets = models.FloatField()
 
+    percentage_of_positive_tweets = models.FloatField()
+    percentage_of_negative_tweets = models.FloatField()
+    percentage_of_neutral_tweets = models.FloatField()
+
     def __str__(self):
         return 'Ethereum ' + str(self.price)
 
@@ -46,6 +54,10 @@ class Solana(models.Model):
     semantics_all = models.FloatField()
     semantics_positive_tweets = models.FloatField()
     semantics_negative_tweets = models.FloatField()
+
+    percentage_of_positive_tweets = models.FloatField()
+    percentage_of_negative_tweets = models.FloatField()
+    percentage_of_neutral_tweets = models.FloatField()
 
     def __str__(self):
         return 'Solana ' + str(self.price)

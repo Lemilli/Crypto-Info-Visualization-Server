@@ -58,7 +58,9 @@ def add_bitcoin_to_db():
     }).json()
 
     tweet_contents_list = tweet_contents_response['data']
-    #tweet_content_list_length = tweet_contents_response['meta']['result_count']
+    total_length = tweet_contents_response['meta']['result_count']
+    print('Total length: ')
+    print(total_length)
 
     analyzer = SentimentIntensityAnalyzer()
     compound_scores = []
@@ -82,9 +84,24 @@ def add_bitcoin_to_db():
             neutral_tweets_count += 1
 
     # formula is sum / length of the array
-    average_compound = statistics.mean(compound_scores) if len(compound_scores) != 0 else 0
-    average_positive_tweets = statistics.mean(positive_tweets) if len(positive_tweets) != 0 else 0
-    average_negative_tweets = statistics.mean(negative_tweets) if len(negative_tweets) != 0 else 0
+    average_compound = statistics.mean(
+        compound_scores) if len(compound_scores) != 0 else 0
+    average_positive_tweets = statistics.mean(
+        positive_tweets) if len(positive_tweets) != 0 else 0
+    average_negative_tweets = statistics.mean(
+        negative_tweets) if len(negative_tweets) != 0 else 0
+
+    # Count percentages
+    positive_tweets_percentage = len(positive_tweets) / total_length
+    negative_tweets_percentage = len(negative_tweets) / total_length
+    neutral_tweets_percentage = neutral_tweets_count / total_length
+
+    print('Positive prcnt: ')
+    print(positive_tweets_percentage)
+    print('Negative prcnt: ')
+    print(negative_tweets_percentage)
+    print('Neutral prcnt: ')
+    print(neutral_tweets_percentage)
 
     # print('Average Compound: ')
     # print(average_compound)
@@ -141,12 +158,12 @@ def add_bitcoin_to_db():
                            semantics_all=average_compound,
                            semantics_positive_tweets=average_positive_tweets,
                            semantics_negative_tweets=average_negative_tweets,
-                           circulating_supply=circulating_supply)
+                           circulating_supply=circulating_supply,
+                           percentage_of_positive_tweets=positive_tweets_percentage,
+                           percentage_of_negative_tweets=negative_tweets_percentage,
+                           percentage_of_neutral_tweets=neutral_tweets_percentage)
 
     return 'Bitcoin: ' + str(current_price)
-
-
-
 
 
 @shared_task
@@ -196,7 +213,7 @@ def add_ethereum_to_db():
     }).json()
 
     tweet_contents_list = tweet_contents_response['data']
-    #tweet_content_list_length = tweet_contents_response['meta']['result_count']
+    total_length = tweet_contents_response['meta']['result_count']
 
     analyzer = SentimentIntensityAnalyzer()
     compound_scores = []
@@ -220,9 +237,24 @@ def add_ethereum_to_db():
             neutral_tweets_count += 1
 
     # formula is sum / length of the array
-    average_compound = statistics.mean(compound_scores) if len(compound_scores) != 0 else 0
-    average_positive_tweets = statistics.mean(positive_tweets) if len(positive_tweets) != 0 else 0
-    average_negative_tweets = statistics.mean(negative_tweets) if len(negative_tweets) != 0 else 0
+    average_compound = statistics.mean(
+        compound_scores) if len(compound_scores) != 0 else 0
+    average_positive_tweets = statistics.mean(
+        positive_tweets) if len(positive_tweets) != 0 else 0
+    average_negative_tweets = statistics.mean(
+        negative_tweets) if len(negative_tweets) != 0 else 0
+
+    # Count percentages
+    positive_tweets_percentage = len(positive_tweets) / total_length
+    negative_tweets_percentage = len(negative_tweets) / total_length
+    neutral_tweets_percentage = neutral_tweets_count / total_length
+
+    print('Positive prcnt: ')
+    print(positive_tweets_percentage)
+    print('Negative prcnt: ')
+    print(negative_tweets_percentage)
+    print('Neutral prcnt: ')
+    print(neutral_tweets_percentage)
 
     # print('Average Compound: ')
     # print(average_compound)
@@ -271,19 +303,20 @@ def add_ethereum_to_db():
     # print(market_dominance_percentage)
 
     Ethereum.objects.create(price=current_price,
-                           price_change_percentage_24h=price_change_percentage_24h,
-                           high_price_24h=high_price_24h,
-                           market_dominance_percentage=market_dominance_percentage,
-                           keyword_tweet_number=tweet_count,
-                           datetime=end_time,
-                           semantics_all=average_compound,
-                           semantics_positive_tweets=average_positive_tweets,
-                           semantics_negative_tweets=average_negative_tweets,
-                           circulating_supply=circulating_supply)
+                            price_change_percentage_24h=price_change_percentage_24h,
+                            high_price_24h=high_price_24h,
+                            market_dominance_percentage=market_dominance_percentage,
+                            keyword_tweet_number=tweet_count,
+                            datetime=end_time,
+                            semantics_all=average_compound,
+                            semantics_positive_tweets=average_positive_tweets,
+                            semantics_negative_tweets=average_negative_tweets,
+                            circulating_supply=circulating_supply,
+                            percentage_of_positive_tweets=positive_tweets_percentage,
+                            percentage_of_negative_tweets=negative_tweets_percentage,
+                            percentage_of_neutral_tweets=neutral_tweets_percentage)
 
     return 'Ethereum: ' + str(current_price)
-
-
 
 
 @shared_task
@@ -333,7 +366,7 @@ def add_solana_to_db():
     }).json()
 
     tweet_contents_list = tweet_contents_response['data']
-    #tweet_content_list_length = tweet_contents_response['meta']['result_count']
+    total_length = tweet_contents_response['meta']['result_count']
 
     analyzer = SentimentIntensityAnalyzer()
     compound_scores = []
@@ -357,9 +390,24 @@ def add_solana_to_db():
             neutral_tweets_count += 1
 
     # formula is sum / length of the array
-    average_compound = statistics.mean(compound_scores) if len(compound_scores) != 0 else 0
-    average_positive_tweets = statistics.mean(positive_tweets) if len(positive_tweets) != 0 else 0
-    average_negative_tweets = statistics.mean(negative_tweets) if len(negative_tweets) != 0 else 0
+    average_compound = statistics.mean(
+        compound_scores) if len(compound_scores) != 0 else 0
+    average_positive_tweets = statistics.mean(
+        positive_tweets) if len(positive_tweets) != 0 else 0
+    average_negative_tweets = statistics.mean(
+        negative_tweets) if len(negative_tweets) != 0 else 0
+
+    # Count percentages
+    positive_tweets_percentage = len(positive_tweets) / total_length
+    negative_tweets_percentage = len(negative_tweets) / total_length
+    neutral_tweets_percentage = neutral_tweets_count / total_length
+
+    print('Positive prcnt: ')
+    print(positive_tweets_percentage)
+    print('Negative prcnt: ')
+    print(negative_tweets_percentage)
+    print('Neutral prcnt: ')
+    print(neutral_tweets_percentage)
 
     # print('Average Compound: ')
     # print(average_compound)
@@ -411,14 +459,17 @@ def add_solana_to_db():
     # print(market_dominance_percentage)
 
     Solana.objects.create(price=current_price,
-                           price_change_percentage_24h=price_change_percentage_24h,
-                           high_price_24h=high_price_24h,
-                           market_dominance_percentage=market_dominance_percentage,
-                           keyword_tweet_number=tweet_count,
-                           datetime=end_time,
-                           semantics_all=average_compound,
-                           semantics_positive_tweets=average_positive_tweets,
-                           semantics_negative_tweets=average_negative_tweets,
-                           circulating_supply=circulating_supply)
+                          price_change_percentage_24h=price_change_percentage_24h,
+                          high_price_24h=high_price_24h,
+                          market_dominance_percentage=market_dominance_percentage,
+                          keyword_tweet_number=tweet_count,
+                          datetime=end_time,
+                          semantics_all=average_compound,
+                          semantics_positive_tweets=average_positive_tweets,
+                          semantics_negative_tweets=average_negative_tweets,
+                          circulating_supply=circulating_supply,
+                          percentage_of_positive_tweets=positive_tweets_percentage,
+                          percentage_of_negative_tweets=negative_tweets_percentage,
+                          percentage_of_neutral_tweets=neutral_tweets_percentage)
 
     return 'Solana: ' + str(current_price)
