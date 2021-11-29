@@ -6,6 +6,7 @@ class Bitcoin(models.Model):
     price = models.FloatField()
     price_change_percentage_24h = models.FloatField()
     high_price_24h = models.FloatField()
+    low_price_24h = models.FloatField()
     market_dominance_percentage = models.FloatField()
     circulating_supply = models.FloatField()
 
@@ -26,6 +27,7 @@ class Ethereum(models.Model):
     price = models.FloatField()
     price_change_percentage_24h = models.FloatField()
     high_price_24h = models.FloatField()
+    low_price_24h = models.FloatField()
     market_dominance_percentage = models.FloatField()
     circulating_supply = models.FloatField()
 
@@ -46,6 +48,7 @@ class Solana(models.Model):
     price = models.FloatField()
     price_change_percentage_24h = models.FloatField()
     high_price_24h = models.FloatField()
+    low_price_24h = models.FloatField()
     market_dominance_percentage = models.FloatField()
     circulating_supply = models.FloatField()
 

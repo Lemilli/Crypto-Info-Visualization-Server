@@ -59,8 +59,8 @@ def add_bitcoin_to_db():
 
     tweet_contents_list = tweet_contents_response['data']
     total_length = tweet_contents_response['meta']['result_count']
-    print('Total length: ')
-    print(total_length)
+    # print('Total length: ')
+    # print(total_length)
 
     analyzer = SentimentIntensityAnalyzer()
     compound_scores = []
@@ -96,12 +96,12 @@ def add_bitcoin_to_db():
     negative_tweets_percentage = len(negative_tweets) / total_length
     neutral_tweets_percentage = neutral_tweets_count / total_length
 
-    print('Positive prcnt: ')
-    print(positive_tweets_percentage)
-    print('Negative prcnt: ')
-    print(negative_tweets_percentage)
-    print('Neutral prcnt: ')
-    print(neutral_tweets_percentage)
+    # print('Positive prcnt: ')
+    # print(positive_tweets_percentage)
+    # print('Negative prcnt: ')
+    # print(negative_tweets_percentage)
+    # print('Neutral prcnt: ')
+    # print(neutral_tweets_percentage)
 
     # print('Average Compound: ')
     # print(average_compound)
@@ -132,6 +132,7 @@ def add_bitcoin_to_db():
     current_price = bitcoin_price_response['market_data']['current_price']['usd']
     price_change_percentage_24h = bitcoin_price_response['market_data']['price_change_percentage_24h']
     high_price_24h = bitcoin_price_response['market_data']['high_24h']['usd']
+    low_price_24h = bitcoin_price_response['market_data']['low_24h']['usd']
     circulating_supply = bitcoin_price_response['market_data']['circulating_supply']
 
     crypto_global_response = requests.get('https://api.coingecko.com/api/v3/global', headers={
@@ -161,7 +162,8 @@ def add_bitcoin_to_db():
                            circulating_supply=circulating_supply,
                            percentage_of_positive_tweets=positive_tweets_percentage,
                            percentage_of_negative_tweets=negative_tweets_percentage,
-                           percentage_of_neutral_tweets=neutral_tweets_percentage)
+                           percentage_of_neutral_tweets=neutral_tweets_percentage,
+                           low_price_24h=low_price_24h)
 
     return 'Bitcoin: ' + str(current_price)
 
@@ -249,12 +251,12 @@ def add_ethereum_to_db():
     negative_tweets_percentage = len(negative_tweets) / total_length
     neutral_tweets_percentage = neutral_tweets_count / total_length
 
-    print('Positive prcnt: ')
-    print(positive_tweets_percentage)
-    print('Negative prcnt: ')
-    print(negative_tweets_percentage)
-    print('Neutral prcnt: ')
-    print(neutral_tweets_percentage)
+    # print('Positive prcnt: ')
+    # print(positive_tweets_percentage)
+    # print('Negative prcnt: ')
+    # print(negative_tweets_percentage)
+    # print('Neutral prcnt: ')
+    # print(neutral_tweets_percentage)
 
     # print('Average Compound: ')
     # print(average_compound)
@@ -285,6 +287,7 @@ def add_ethereum_to_db():
     current_price = price_response['market_data']['current_price']['usd']
     price_change_percentage_24h = price_response['market_data']['price_change_percentage_24h']
     high_price_24h = price_response['market_data']['high_24h']['usd']
+    low_price_24h = price_response['market_data']['low_24h']['usd']
     circulating_supply = price_response['market_data']['circulating_supply']
 
     crypto_global_response = requests.get('https://api.coingecko.com/api/v3/global', headers={
@@ -314,7 +317,8 @@ def add_ethereum_to_db():
                             circulating_supply=circulating_supply,
                             percentage_of_positive_tweets=positive_tweets_percentage,
                             percentage_of_negative_tweets=negative_tweets_percentage,
-                            percentage_of_neutral_tweets=neutral_tweets_percentage)
+                            percentage_of_neutral_tweets=neutral_tweets_percentage,
+                            low_price_24h=low_price_24h)
 
     return 'Ethereum: ' + str(current_price)
 
@@ -402,12 +406,12 @@ def add_solana_to_db():
     negative_tweets_percentage = len(negative_tweets) / total_length
     neutral_tweets_percentage = neutral_tweets_count / total_length
 
-    print('Positive prcnt: ')
-    print(positive_tweets_percentage)
-    print('Negative prcnt: ')
-    print(negative_tweets_percentage)
-    print('Neutral prcnt: ')
-    print(neutral_tweets_percentage)
+    # print('Positive prcnt: ')
+    # print(positive_tweets_percentage)
+    # print('Negative prcnt: ')
+    # print(negative_tweets_percentage)
+    # print('Neutral prcnt: ')
+    # print(neutral_tweets_percentage)
 
     # print('Average Compound: ')
     # print(average_compound)
@@ -438,10 +442,11 @@ def add_solana_to_db():
     current_price = price_response['market_data']['current_price']['usd']
     price_change_percentage_24h = price_response['market_data']['price_change_percentage_24h']
     high_price_24h = price_response['market_data']['high_24h']['usd']
+    low_price_24h = price_response['market_data']['low_24h']['usd']
     circulating_supply = price_response['market_data']['circulating_supply']
 
-    print('Circ supply')
-    print(circulating_supply)
+    # print('Circ supply')
+    # print(circulating_supply)
 
     crypto_global_response = requests.get('https://api.coingecko.com/api/v3/global', headers={
         'accept': 'application/json'
@@ -470,6 +475,7 @@ def add_solana_to_db():
                           circulating_supply=circulating_supply,
                           percentage_of_positive_tweets=positive_tweets_percentage,
                           percentage_of_negative_tweets=negative_tweets_percentage,
-                          percentage_of_neutral_tweets=neutral_tweets_percentage)
+                          percentage_of_neutral_tweets=neutral_tweets_percentage,
+                          low_price_24h=low_price_24h)
 
     return 'Solana: ' + str(current_price)
