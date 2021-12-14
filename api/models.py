@@ -21,7 +21,7 @@ class Bitcoin(models.Model):
     percentage_of_neutral_tweets = models.FloatField()
 
     def __str__(self):
-        return 'Bitcoin ' + str(self.price)
+        return 'Bitcoin ' + str(self.datetime)
 
 class Ethereum(models.Model):
     price = models.FloatField()
@@ -42,7 +42,7 @@ class Ethereum(models.Model):
     percentage_of_neutral_tweets = models.FloatField()
 
     def __str__(self):
-        return 'Ethereum ' + str(self.price)
+        return 'Ethereum ' + str(self.datetime)
 
 class Solana(models.Model):
     price = models.FloatField()
@@ -63,6 +63,6 @@ class Solana(models.Model):
     percentage_of_neutral_tweets = models.FloatField()
 
     def __str__(self):
-        return 'Solana ' + str(self.price)
+        return 'Solana ' + str(self.datetime)
 
 
