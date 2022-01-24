@@ -7,7 +7,7 @@ from django.conf import settings  # noqa
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'infoviz.settings')
 
-BASE_REDIS_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
+BASE_REDIS_URL = os.environ.get('REDIS_URL', 'redis://redis:6379/0')
 
 app = Celery('infoviz', broker='redis://127.0.0.1:6379')
 
@@ -22,18 +22,19 @@ app.autodiscover_tasks(settings.INSTALLED_APPS)
 
 app.conf.broker_url = BASE_REDIS_URL
 
+# Every 900 seconds = 15 minutes
 app.conf.beat_schedule = {
     'Adding BTC to DB': {
         'task': 'api.tasks.add_bitcoin_to_db',
-        'schedule': 60.0,
+        'schedule': 900.0,
     },
     'Adding ETH to DB': {
         'task': 'api.tasks.add_ethereum_to_db',
-        'schedule': 60.0,
+        'schedule': 900.0,
     },
     'Adding SOL to DB': {
         'task': 'api.tasks.add_solana_to_db',
-        'schedule': 60.0,
+        'schedule': 900.0,
     },
 }
 
