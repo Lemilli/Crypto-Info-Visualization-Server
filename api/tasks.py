@@ -52,7 +52,7 @@ def add_bitcoin_to_db():
         'query': '(BITCOIN OR BTC) -is:reply',
         'start_time': start_time,
         'end_time': end_time,
-        'max_results': 100,
+        'max_results': 80,
     }, headers={
         'Authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAAFBHUgEAAAAAS%2FqmgRmQ9Et4NnVHwquTNcgLSh4%3DlVJtc0IVsXGsJ37OybtqRC61spliYMfhyKKZtRCqnHa8tZUsQc'
     }).json()
@@ -209,7 +209,7 @@ def add_ethereum_to_db():
         'query': '(ETHEREUM OR ETH) -is:reply',
         'start_time': start_time,
         'end_time': end_time,
-        'max_results': 100,
+        'max_results': 80,
     }, headers={
         'Authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAAFBHUgEAAAAAS%2FqmgRmQ9Et4NnVHwquTNcgLSh4%3DlVJtc0IVsXGsJ37OybtqRC61spliYMfhyKKZtRCqnHa8tZUsQc'
     }).json()
@@ -364,7 +364,7 @@ def add_solana_to_db():
         'query': '(SOLANA OR SOL) -is:reply',
         'start_time': start_time,
         'end_time': end_time,
-        'max_results': 100,
+        'max_results': 80,
     }, headers={
         'Authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAAFBHUgEAAAAAS%2FqmgRmQ9Et4NnVHwquTNcgLSh4%3DlVJtc0IVsXGsJ37OybtqRC61spliYMfhyKKZtRCqnHa8tZUsQc'
     }).json()
