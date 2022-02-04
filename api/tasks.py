@@ -49,10 +49,10 @@ def add_bitcoin_to_db():
 
     tweet_contents_response = requests.get('https://api.twitter.com/2/tweets/search/recent', params={
         # ensures there wull be no retweets and replies
-        'query': 'Bitcoin -is:retweet -is:reply',
+        'query': '(BITCOIN OR BTC) -is:reply',
         'start_time': start_time,
         'end_time': end_time,
-        'max_results': 30,
+        'max_results': 100,
     }, headers={
         'Authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAAFBHUgEAAAAAS%2FqmgRmQ9Et4NnVHwquTNcgLSh4%3DlVJtc0IVsXGsJ37OybtqRC61spliYMfhyKKZtRCqnHa8tZUsQc'
     }).json()
@@ -206,10 +206,10 @@ def add_ethereum_to_db():
 
     tweet_contents_response = requests.get('https://api.twitter.com/2/tweets/search/recent', params={
         # ensures there wull be no retweets and replies
-        'query': 'Ethereum -is:retweet -is:reply',
+        'query': '(ETHEREUM OR ETH) -is:reply',
         'start_time': start_time,
         'end_time': end_time,
-        'max_results': 30,
+        'max_results': 100,
     }, headers={
         'Authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAAFBHUgEAAAAAS%2FqmgRmQ9Et4NnVHwquTNcgLSh4%3DlVJtc0IVsXGsJ37OybtqRC61spliYMfhyKKZtRCqnHa8tZUsQc'
     }).json()
@@ -361,10 +361,10 @@ def add_solana_to_db():
 
     tweet_contents_response = requests.get('https://api.twitter.com/2/tweets/search/recent', params={
         # ensures there wull be no retweets and replies
-        'query': 'Solana -is:retweet -is:reply',
+        'query': '(SOLANA OR SOL) -is:reply',
         'start_time': start_time,
         'end_time': end_time,
-        'max_results': 30,
+        'max_results': 100,
     }, headers={
         'Authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAAFBHUgEAAAAAS%2FqmgRmQ9Et4NnVHwquTNcgLSh4%3DlVJtc0IVsXGsJ37OybtqRC61spliYMfhyKKZtRCqnHa8tZUsQc'
     }).json()
