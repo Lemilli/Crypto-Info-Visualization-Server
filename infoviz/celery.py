@@ -19,6 +19,11 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks()
+# app.config.update({
+#     'task_routes': {
+#         'test': {'queue': 'celery_queue'}
+#     }
+# })
 
 #app.conf.broker_url = BASE_REDIS_URL
 

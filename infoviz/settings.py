@@ -31,10 +31,18 @@ ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1', 'localhost']
 CELERY_TIMEZONE = "Asia/Almaty"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-BROKER_TRANSPORT = 'sqs'
-BROKER_TRANSPORT_OPTIONS = {
+CELERY_BROKER_TRANSPORT = 'sqs'
+CELERY_TRANSPORT_OPTIONS = {
     'region': 'eu-west-1',
+    'predefined_queues': {
+        'celery_queue': {
+            'url': 'https://sqs.eu-west-1.amazonaws.com/399730690574/celery_queue',
+            'access_key_id': 'AKIAV2EOOJIHEW5IILUH',
+            'secret_access_key': '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',
+        }
+    }
 }
+CELERY_DEFAULT_QUEUE = 'celery_queue'
 CELERY_BROKER_URL = 'sqs://AKIAV2EOOJIHEW5IILUH:fkPLPqAYo8YkAxaeYKnR9DrvxNolkSKqo2k575LP@'
 CELERY_RESULT_BACKEND = 'django-db'
 
