@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-0_un5$a&4+9+b%4#r19v3*6h(y4+#2rsy1&1vr9@6dm-ju#018'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1', 'localhost']
 
@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1', 'localhost']
 CELERY_TIMEZONE = "Asia/Almaty"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_BROKER_URL = 'sqs://AKIAV2EOOJIHEW5IILUH:fkPLPqAYo8YkAxaeYKnR9DrvxNolkSKqo2k575LP@'
 CELERY_RESULT_BACKEND = 'django-db'
 
 

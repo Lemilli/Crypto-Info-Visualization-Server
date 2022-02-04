@@ -7,20 +7,20 @@ from django.conf import settings  # noqa
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'infoviz.settings')
 
-BASE_REDIS_URL = os.environ.get('REDIS_URL', 'redis://redis:6379/0')
+#BASE_REDIS_URL = os.environ.get('REDIS_URL', 'redis://redis:6379/0')
 
-app = Celery('infoviz', broker='redis://127.0.0.1:6379')
+app = Celery('infoviz')
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
 # - namespace='CELERY' means all celery-related configuration keys
 #   should have a `CELERY_` prefix.
-app.config_from_object('django.conf:settings')
+app.config_from_object('django.conf:settings', namespace='CELERY')
 
 # Load task modules from all registered Django apps.
-app.autodiscover_tasks(settings.INSTALLED_APPS)
+app.autodiscover_tasks()
 
-app.conf.broker_url = BASE_REDIS_URL
+#app.conf.broker_url = BASE_REDIS_URL
 
 # Every 900 seconds = 15 minutes
 app.conf.beat_schedule = {
