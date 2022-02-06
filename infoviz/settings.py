@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-0_un5$a&4+9+b%4#r19v3*6h(y4+#2rsy1&1vr9@6dm-ju#018
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['10.0.2.2', 'localhost', '3.250.213.87']
 
 # Celery Configuration Options
 CELERY_TIMEZONE = "Asia/Almaty"
