@@ -7,10 +7,11 @@ import requests
 from celery import shared_task
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import statistics
+from random import randint
+import re
+from html import unescape
 
 # Codes for all 3 tasks are identical
-
-
 @shared_task
 def add_bitcoin_to_db():
     # ------------------------------------------------------------------------------------------
@@ -25,9 +26,6 @@ def add_bitcoin_to_db():
     start_time = start_time_unformatted.isoformat("T") + "Z"
     end_time = d.isoformat("T") + "Z"
 
-    # print('start time ' + start_time)
-    # print('end time ' + end_time)
-
     count_response = requests.get('https://api.twitter.com/2/tweets/counts/recent', params={
         'query': 'bitcoin',
         'start_time': start_time,
@@ -36,12 +34,7 @@ def add_bitcoin_to_db():
         'Authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAAFBHUgEAAAAAS%2FqmgRmQ9Et4NnVHwquTNcgLSh4%3DlVJtc0IVsXGsJ37OybtqRC61spliYMfhyKKZtRCqnHa8tZUsQc'
     }).json()
 
-    #print('RESPONSE: ')
-    # print(count_response)
-
     tweet_count = count_response['meta']['total_tweet_count']
-    #print('TWEET COUNT: ')
-    # print(tweet_count)
 
     # ------------------------------------------------------------------------------------------
     # Done with tweet_count, moving on to tweet_contents and its analysis to calculate semantics
@@ -49,7 +42,7 @@ def add_bitcoin_to_db():
 
     tweet_contents_response = requests.get('https://api.twitter.com/2/tweets/search/recent', params={
         # ensures there wull be no retweets and replies
-        'query': '(BITCOIN OR BTC) -is:reply',
+        'query': '(BITCOIN OR BTC) -is:retweet -is:reply lang:en',
         'start_time': start_time,
         'end_time': end_time,
         'max_results': 80,
@@ -59,18 +52,24 @@ def add_bitcoin_to_db():
 
     tweet_contents_list = tweet_contents_response['data']
     total_length = tweet_contents_response['meta']['result_count']
-    # print('Total length: ')
-    # print(total_length)
 
     analyzer = SentimentIntensityAnalyzer()
     compound_scores = []
 
-    # analyze each tweet and add its semantics value to the array so we can get the average
+    # Clean and analyze each tweet and add its semantics value to the array so we can get the average later
     for tweet in tweet_contents_list:
         text = tweet['text']
-        vs = analyzer.polarity_scores(text)
-        # print(vs['compound'])
+        cleaned_tweet = clean_tweet(text)
+        vs = analyzer.polarity_scores(cleaned_tweet)
         compound_scores.append(vs['compound'])
+
+    # # Choose and evaluate random tweet
+    # rand_index = randint(0, total_length-1)
+    # rand_tweet = tweet_contents_list[rand_index]['text']
+    # rand_compound_score = compound_scores[rand_index]
+
+    # print(rand_tweet)
+    # print(rand_compound_score)
 
     positive_tweets = []
     negative_tweets = []
@@ -96,26 +95,6 @@ def add_bitcoin_to_db():
     negative_tweets_percentage = len(negative_tweets) / total_length
     neutral_tweets_percentage = neutral_tweets_count / total_length
 
-    # print('Positive prcnt: ')
-    # print(positive_tweets_percentage)
-    # print('Negative prcnt: ')
-    # print(negative_tweets_percentage)
-    # print('Neutral prcnt: ')
-    # print(neutral_tweets_percentage)
-
-    # print('Average Compound: ')
-    # print(average_compound)
-    # print('neutral_tweets_count: ')
-    # print(neutral_tweets_count)
-    # print('Positive tweets count: ')
-    # print(len(positive_tweets))
-    # print('Negative tweets count: ')
-    # print(len(negative_tweets))
-    # print('AVG Positive tweets: ')
-    # print(average_positive_tweets)
-    # print('AVG Negative Tweets: ')
-    # print(average_negative_tweets)
-
     # ------------------------------------------------------------------------------------------
     # Done with semantics, moving on to getting bitcoin price
     # ------------------------------------------------------------------------------------------
@@ -140,15 +119,6 @@ def add_bitcoin_to_db():
     }).json()
 
     market_dominance_percentage = crypto_global_response['data']['market_cap_percentage']['btc']
-
-    # print('CURRENT PRICE')
-    # print(current_price)
-    # print('price_change_percentage_24h')
-    # print(price_change_percentage_24h)
-    # print('high_24h')
-    # print(high_price_24h)
-    # print('market_cap_percentage')
-    # print(market_dominance_percentage)
 
     Bitcoin.objects.create(price=current_price,
                            price_change_percentage_24h=price_change_percentage_24h,
@@ -182,9 +152,6 @@ def add_ethereum_to_db():
     start_time = start_time_unformatted.isoformat("T") + "Z"
     end_time = d.isoformat("T") + "Z"
 
-    # print('start time ' + start_time)
-    # print('end time ' + end_time)
-
     count_response = requests.get('https://api.twitter.com/2/tweets/counts/recent', params={
         'query': 'ethereum',
         'start_time': start_time,
@@ -193,12 +160,7 @@ def add_ethereum_to_db():
         'Authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAAFBHUgEAAAAAS%2FqmgRmQ9Et4NnVHwquTNcgLSh4%3DlVJtc0IVsXGsJ37OybtqRC61spliYMfhyKKZtRCqnHa8tZUsQc'
     }).json()
 
-    #print('RESPONSE: ')
-    # print(count_response)
-
     tweet_count = count_response['meta']['total_tweet_count']
-    #print('TWEET COUNT: ')
-    # print(tweet_count)
 
     # ------------------------------------------------------------------------------------------
     # Done with tweet_count, moving on to tweet_contents and its analysis to calculate semantics
@@ -206,7 +168,7 @@ def add_ethereum_to_db():
 
     tweet_contents_response = requests.get('https://api.twitter.com/2/tweets/search/recent', params={
         # ensures there wull be no retweets and replies
-        'query': '(ETHEREUM OR ETH) -is:reply',
+        'query': '(ETHEREUM OR ETH) -is:retweet -is:reply lang:en',
         'start_time': start_time,
         'end_time': end_time,
         'max_results': 80,
@@ -220,11 +182,11 @@ def add_ethereum_to_db():
     analyzer = SentimentIntensityAnalyzer()
     compound_scores = []
 
-    # analyze each tweet and add its semantics value to the array so we can get the average
+    # Clean and analyze each tweet and add its semantics value to the array so we can get the average later
     for tweet in tweet_contents_list:
         text = tweet['text']
-        vs = analyzer.polarity_scores(text)
-        # print(vs['compound'])
+        cleaned_tweet = clean_tweet(text)
+        vs = analyzer.polarity_scores(cleaned_tweet)
         compound_scores.append(vs['compound'])
 
     positive_tweets = []
@@ -251,26 +213,6 @@ def add_ethereum_to_db():
     negative_tweets_percentage = len(negative_tweets) / total_length
     neutral_tweets_percentage = neutral_tweets_count / total_length
 
-    # print('Positive prcnt: ')
-    # print(positive_tweets_percentage)
-    # print('Negative prcnt: ')
-    # print(negative_tweets_percentage)
-    # print('Neutral prcnt: ')
-    # print(neutral_tweets_percentage)
-
-    # print('Average Compound: ')
-    # print(average_compound)
-    # print('neutral_tweets_count: ')
-    # print(neutral_tweets_count)
-    # print('Positive tweets count: ')
-    # print(len(positive_tweets))
-    # print('Negative tweets count: ')
-    # print(len(negative_tweets))
-    # print('AVG Positive tweets: ')
-    # print(average_positive_tweets)
-    # print('AVG Negative Tweets: ')
-    # print(average_negative_tweets)
-
     # ------------------------------------------------------------------------------------------
     # Done with semantics, moving on to getting price
     # ------------------------------------------------------------------------------------------
@@ -295,15 +237,6 @@ def add_ethereum_to_db():
     }).json()
 
     market_dominance_percentage = crypto_global_response['data']['market_cap_percentage']['eth']
-
-    # print('CURRENT PRICE')
-    # print(current_price)
-    # print('price_change_percentage_24h')
-    # print(price_change_percentage_24h)
-    # print('high_24h')
-    # print(high_price_24h)
-    # print('market_cap_percentage')
-    # print(market_dominance_percentage)
 
     Ethereum.objects.create(price=current_price,
                             price_change_percentage_24h=price_change_percentage_24h,
@@ -337,9 +270,6 @@ def add_solana_to_db():
     start_time = start_time_unformatted.isoformat("T") + "Z"
     end_time = d.isoformat("T") + "Z"
 
-    # print('start time ' + start_time)
-    # print('end time ' + end_time)
-
     count_response = requests.get('https://api.twitter.com/2/tweets/counts/recent', params={
         'query': 'solana',
         'start_time': start_time,
@@ -348,12 +278,7 @@ def add_solana_to_db():
         'Authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAAFBHUgEAAAAAS%2FqmgRmQ9Et4NnVHwquTNcgLSh4%3DlVJtc0IVsXGsJ37OybtqRC61spliYMfhyKKZtRCqnHa8tZUsQc'
     }).json()
 
-    #print('RESPONSE: ')
-    # print(count_response)
-
     tweet_count = count_response['meta']['total_tweet_count']
-    #print('TWEET COUNT: ')
-    # print(tweet_count)
 
     # ------------------------------------------------------------------------------------------
     # Done with tweet_count, moving on to tweet_contents and its analysis to calculate semantics
@@ -361,7 +286,7 @@ def add_solana_to_db():
 
     tweet_contents_response = requests.get('https://api.twitter.com/2/tweets/search/recent', params={
         # ensures there wull be no retweets and replies
-        'query': '(SOLANA OR SOL) -is:reply',
+        'query': '(SOLANA OR SOL) -is:retweet -is:reply lang:en',
         'start_time': start_time,
         'end_time': end_time,
         'max_results': 80,
@@ -375,11 +300,11 @@ def add_solana_to_db():
     analyzer = SentimentIntensityAnalyzer()
     compound_scores = []
 
-    # analyze each tweet and add its semantics value to the array so we can get the average
+    # Clean and analyze each tweet and add its semantics value to the array so we can get the average later
     for tweet in tweet_contents_list:
         text = tweet['text']
-        vs = analyzer.polarity_scores(text)
-        # print(vs['compound'])
+        cleaned_tweet = clean_tweet(text)
+        vs = analyzer.polarity_scores(cleaned_tweet)
         compound_scores.append(vs['compound'])
 
     positive_tweets = []
@@ -406,26 +331,6 @@ def add_solana_to_db():
     negative_tweets_percentage = len(negative_tweets) / total_length
     neutral_tweets_percentage = neutral_tweets_count / total_length
 
-    # print('Positive prcnt: ')
-    # print(positive_tweets_percentage)
-    # print('Negative prcnt: ')
-    # print(negative_tweets_percentage)
-    # print('Neutral prcnt: ')
-    # print(neutral_tweets_percentage)
-
-    # print('Average Compound: ')
-    # print(average_compound)
-    # print('neutral_tweets_count: ')
-    # print(neutral_tweets_count)
-    # print('Positive tweets count: ')
-    # print(len(positive_tweets))
-    # print('Negative tweets count: ')
-    # print(len(negative_tweets))
-    # print('AVG Positive tweets: ')
-    # print(average_positive_tweets)
-    # print('AVG Negative Tweets: ')
-    # print(average_negative_tweets)
-
     # ------------------------------------------------------------------------------------------
     # Done with semantics, moving on to getting price
     # ------------------------------------------------------------------------------------------
@@ -445,23 +350,12 @@ def add_solana_to_db():
     low_price_24h = price_response['market_data']['low_24h']['usd']
     circulating_supply = price_response['market_data']['circulating_supply']
 
-    # print('Circ supply')
-    # print(circulating_supply)
-
     crypto_global_response = requests.get('https://api.coingecko.com/api/v3/global', headers={
         'accept': 'application/json'
     }).json()
 
     market_dominance_percentage = crypto_global_response['data']['market_cap_percentage']['sol']
 
-    # print('CURRENT PRICE')
-    # print(current_price)
-    # print('price_change_percentage_24h')
-    # print(price_change_percentage_24h)
-    # print('high_24h')
-    # print(high_price_24h)
-    # print('market_cap_percentage')
-    # print(market_dominance_percentage)
 
     Solana.objects.create(price=current_price,
                           price_change_percentage_24h=price_change_percentage_24h,
@@ -479,3 +373,17 @@ def add_solana_to_db():
                           low_price_24h=low_price_24h)
 
     return 'Solana: ' + str(current_price)
+
+
+def clean_tweet(text):
+    # convert html characters into UTF-8 format
+    # e.g., convert &amp into &
+    cleaned_tweet = unescape(text)
+
+    # In order: remove mentions, hashtags, links, multiple spaces in a row
+    cleaned_tweet = re.sub("@[A-Za-z0-9_]+","", text)
+    cleaned_tweet = re.sub("#[A-Za-z0-9_]+","", cleaned_tweet)
+    cleaned_tweet = re.sub(r'https?://\S+|www\.\S+', " ", cleaned_tweet)
+    cleaned_tweet = re.sub(' +', ' ', cleaned_tweet)
+
+    return cleaned_tweet
