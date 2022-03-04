@@ -65,4 +65,27 @@ class Solana(models.Model):
     def __str__(self):
         return 'Solana ' + str(self.datetime)
 
+class RandomTweetBTC(models.Model):
+    tweet = models.CharField(max_length=300)
+    cleaned_tweet = models.CharField(max_length=300)
+    eval = models.FloatField()
+
+    def __str__(self):
+        return 'Bitcoin ' + str(self.eval)
+
+class RandomTweetETH(models.Model):
+    tweet = models.CharField(max_length=300)
+    cleaned_tweet = models.CharField(max_length=300)
+    eval = models.FloatField()
+
+    def __str__(self):
+        return 'Ethereum ' + str(self.eval)
+
+class RandomTweetSOL(models.Model):
+    tweet = models.CharField(max_length=300)
+    cleaned_tweet = models.CharField(max_length=300)
+    eval = models.FloatField()
+
+    def __str__(self):
+        return 'Solana' + str(self.eval)
 

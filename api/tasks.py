@@ -1,7 +1,7 @@
 # Create your tasks here
 
 from datetime import datetime, timedelta
-from .models import Bitcoin, Ethereum, Solana
+from .models import Bitcoin, Ethereum, Solana, RandomTweetBTC, RandomTweetETH, RandomTweetSOL
 import requests
 
 from celery import shared_task
@@ -63,14 +63,15 @@ def add_bitcoin_to_db():
         vs = analyzer.polarity_scores(cleaned_tweet)
         compound_scores.append(vs['compound'])
 
-    # # Choose and evaluate random tweet
-    # rand_index = randint(0, total_length-1)
-    # rand_tweet = tweet_contents_list[rand_index]['text']
-    # rand_compound_score = compound_scores[rand_index]
+    # Choose, evaluate and save random tweet and its semantics score
+    rand_index = randint(0, total_length-1)
+    rand_tweet = tweet_contents_list[rand_index]['text']
+    rand_cleaned = clean_tweet(rand_tweet)
+    rand_compound_score = compound_scores[rand_index]
+    RandomTweetBTC.objects.all().delete() # delete old tweet
+    RandomTweetBTC.objects.create(tweet=rand_tweet, cleaned_tweet=rand_cleaned, eval=rand_compound_score)
 
-    # print(rand_tweet)
-    # print(rand_compound_score)
-
+    # Sort positive and negative tweets while counting amount of neutral ones
     positive_tweets = []
     negative_tweets = []
     neutral_tweets_count = 0
@@ -189,6 +190,15 @@ def add_ethereum_to_db():
         vs = analyzer.polarity_scores(cleaned_tweet)
         compound_scores.append(vs['compound'])
 
+    # Choose, evaluate and save random tweet and its semantics score
+    rand_index = randint(0, total_length-1)
+    rand_tweet = tweet_contents_list[rand_index]['text']
+    rand_cleaned = clean_tweet(rand_tweet)
+    rand_compound_score = compound_scores[rand_index]
+    RandomTweetETH.objects.all().delete() # delete old tweet
+    RandomTweetETH.objects.create(tweet=rand_tweet, cleaned_tweet=rand_cleaned, eval=rand_compound_score)
+
+    # Sort positive and negative tweets while counting amount of neutral ones
     positive_tweets = []
     negative_tweets = []
     neutral_tweets_count = 0
@@ -307,6 +317,15 @@ def add_solana_to_db():
         vs = analyzer.polarity_scores(cleaned_tweet)
         compound_scores.append(vs['compound'])
 
+    # Choose, evaluate and save random tweet and its semantics score
+    rand_index = randint(0, total_length-1)
+    rand_tweet = tweet_contents_list[rand_index]['text']
+    rand_cleaned = clean_tweet(rand_tweet)
+    rand_compound_score = compound_scores[rand_index]
+    RandomTweetSOL.objects.all().delete() # delete old tweet
+    RandomTweetSOL.objects.create(tweet=rand_tweet, cleaned_tweet=rand_cleaned, eval=rand_compound_score)
+
+    # Sort positive and negative tweets while counting amount of neutral ones
     positive_tweets = []
     negative_tweets = []
     neutral_tweets_count = 0
