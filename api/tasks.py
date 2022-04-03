@@ -53,7 +53,19 @@ def add_bitcoin_to_db():
     tweet_contents_list = tweet_contents_response['data']
     total_length = tweet_contents_response['meta']['result_count']
 
+    new_words = {
+    'bullish': 4.0,
+    'bull market': 4.0,
+    'dump': -2.0,
+    'dumping': -2.0,
+    'pump': 2.0,
+    'pumping': 2.0,
+    'rugpull': -3.0,
+}
+
     analyzer = SentimentIntensityAnalyzer()
+    analyzer.lexicon.update(new_words)
+
     compound_scores = []
 
     # Clean and analyze each tweet and add its semantics value to the array so we can get the average later
@@ -180,7 +192,19 @@ def add_ethereum_to_db():
     tweet_contents_list = tweet_contents_response['data']
     total_length = tweet_contents_response['meta']['result_count']
 
+    new_words = {
+    'bullish': 4.0,
+    'bull market': 4.0,
+    'dump': -2.0,
+    'dumping': -2.0,
+    'pump': 2.0,
+    'pumping': 2.0,
+    'rugpull': -3.0,
+    }
+
     analyzer = SentimentIntensityAnalyzer()
+    analyzer.lexicon.update(new_words)
+
     compound_scores = []
 
     # Clean and analyze each tweet and add its semantics value to the array so we can get the average later
@@ -307,7 +331,18 @@ def add_solana_to_db():
     tweet_contents_list = tweet_contents_response['data']
     total_length = tweet_contents_response['meta']['result_count']
 
+    new_words = {
+    'bullish': 4.0,
+    'bull market': 4.0,
+    'dump': -2.0,
+    'dumping': -2.0,
+    'pump': 2.0,
+    'pumping': 2.0,
+    'rugpull': -3.0,
+}
+
     analyzer = SentimentIntensityAnalyzer()
+    analyzer.lexicon.update(new_words)
     compound_scores = []
 
     # Clean and analyze each tweet and add its semantics value to the array so we can get the average later
