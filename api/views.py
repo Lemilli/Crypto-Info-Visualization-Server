@@ -9,21 +9,21 @@ from .models import Bitcoin, Ethereum, Solana, RandomTweetBTC, RandomTweetETH, R
 # Create your views here.
 class GetBitcoin(APIView):
     def get(self, request):
-        btc_data = Bitcoin.objects.all()
+        btc_data = Bitcoin.objects.all()[-2881:]
         serializer = BitcoinSerializer(btc_data, many=True)
         return Response(serializer.data)
         # return json
     
 class GetEthereum(APIView):
     def get(self, request):
-        eth_data = Ethereum.objects.all()
+        eth_data = Ethereum.objects.all()[-2881:]
         serializer = EthereumSerializer(eth_data, many=True)
         return Response(serializer.data)
         # return json
     
 class GetSolana(APIView):
     def get(self, request):
-        sol_data = Solana.objects.all()
+        sol_data = Solana.objects.all()[-2881:]
         serializer = SolanaSerializer(sol_data, many=True)
         return Response(serializer.data)
         # return json
