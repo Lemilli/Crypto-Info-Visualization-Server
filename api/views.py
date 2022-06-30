@@ -14,6 +14,8 @@ class GetBitcoin(APIView):
         return Response(serializer.data, headers={
             'Access-Control-Allow-Origin' : '*',
             'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE',
+            "Access-Control-Max-Age" : "86400",
+            "Access-Control-Allow-Headers" : "X-Requested-With, Content-Type",
         })
         # return json
     
@@ -24,6 +26,8 @@ class GetEthereum(APIView):
         return Response(serializer.data, headers={
             'Access-Control-Allow-Origin' : '*',
             'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE',
+            "Access-Control-Max-Age" : "86400",
+            "Access-Control-Allow-Headers" : "X-Requested-With, Content-Type",
         })
         # return json
     
@@ -44,6 +48,8 @@ class GetRandomTweetBTC(APIView):
         return Response(serializer.data, headers={
             'Access-Control-Allow-Origin' : '*',
             'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE',
+            "Access-Control-Max-Age" : "86400",
+            "Access-Control-Allow-Headers" : "X-Requested-With, Content-Type",
         })
 
 class GetRandomTweetETH(APIView):
@@ -53,6 +59,8 @@ class GetRandomTweetETH(APIView):
         return Response(serializer.data, headers={
             'Access-Control-Allow-Origin' : '*',
             'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE',
+            "Access-Control-Max-Age" : "86400",
+            "Access-Control-Allow-Headers" : "X-Requested-With, Content-Type",
         })
 
 class GetRandomTweetSOL(APIView):
@@ -62,5 +70,7 @@ class GetRandomTweetSOL(APIView):
         return Response(serializer.data, headers={
             'Access-Control-Allow-Origin' : '*',
             'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE',
+            "Access-Control-Max-Age" : "86400",
+            "Access-Control-Allow-Headers" : "X-Requested-With, Content-Type",
         })
 
