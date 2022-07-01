@@ -9,7 +9,7 @@ from .models import Bitcoin, Ethereum, Solana, RandomTweetBTC, RandomTweetETH, R
 # Create your views here.
 class GetBitcoin(APIView):
     def get(self, request):
-        btc_data = Bitcoin.objects.all().order_by('-id')[:2881:-1]
+        btc_data = Bitcoin.objects.all().order_by('-id')[:9000:-1]
         serializer = BitcoinSerializer(btc_data, many=True)
         return Response(serializer.data, headers={
             'Access-Control-Allow-Origin' : '*',
@@ -21,7 +21,7 @@ class GetBitcoin(APIView):
     
 class GetEthereum(APIView):
     def get(self, request):
-        eth_data = Ethereum.objects.all().order_by('-id')[:2881:-1]
+        eth_data = Ethereum.objects.all().order_by('-id')[:9000:-1]
         serializer = EthereumSerializer(eth_data, many=True)
         return Response(serializer.data, headers={
             'Access-Control-Allow-Origin' : '*',
@@ -33,7 +33,7 @@ class GetEthereum(APIView):
     
 class GetSolana(APIView):
     def get(self, request):
-        sol_data = Solana.objects.all().order_by('-id')[:2881:-1]
+        sol_data = Solana.objects.all().order_by('-id')[:9000:-1]
         serializer = SolanaSerializer(sol_data, many=True)
         return Response(serializer.data, headers={
             'Access-Control-Allow-Origin' : '*',
